@@ -1,6 +1,7 @@
 import { useState } from 'react';
 
 import Button from '../common/Button';
+import classNames from 'classnames';
 import { HiCheck, HiOutlinePencilAlt, HiOutlineTrash, HiX } from 'react-icons/hi';
 
 import { TEST_IDS } from '@/constants/test-ids';
@@ -52,11 +53,31 @@ const Item: React.FC<ItemProps> = ({ id, isCompleted, todo }) => {
       console.error(e);
     }
   };
+  const onCheckboxChange: React.ChangeEventHandler<HTMLInputElement> = async (event) => {
+    const { target } = event;
+    const isCompleted = (target as HTMLInputElement).checked;
+
+    try {
+      const updatedTodo = await updateTodo({ id, isCompleted, todo });
+      dispatch(updateTodoBy(updatedTodo));
+    } catch (e) {
+      console.error(e);
+    }
+  };
 
   return (
     <>
-      <label className='flex items-center w-full gap-4 cursor-pointer'>
-        <input type='checkbox' className='hidden peer' id={`${id}`} defaultChecked={isCompleted} />
+      <label
+        className={classNames('flex items-center gap-4 cursor-pointer', !isEditing && 'w-full')}
+      >
+        <input
+          type='checkbox'
+          className='hidden peer'
+          id={`${id}`}
+          defaultChecked={isCompleted}
+          disabled={isEditing}
+          onChange={onCheckboxChange}
+        />
         <label
           htmlFor={`${id}`}
           className='flex w-3 h-3 border border-gray-300 rounded-full aspect-square peer-checked:bg-amber-400'

@@ -2,10 +2,35 @@ import Button from '../common/Button';
 import { HiPlus } from 'react-icons/hi';
 
 import { TEST_IDS } from '@/constants/test-ids';
+import useTodoContext from '@/hooks/useTodoContext';
+import { createTodo } from '@/libs/api/todo';
+import { addTodoBy } from '@/reducer/todo';
 
 const { NEW_TODO_INPUT, NEW_TODO_ADD_BUTTON } = TEST_IDS;
 
 const CreateTodo = () => {
+  const [, dispatch] = useTodoContext();
+
+  const onSubmit: React.FormEventHandler<HTMLFormElement> = async (event) => {
+    event.preventDefault();
+
+    const { target } = event;
+    const newTodoInput = (target as HTMLFormElement).elements.namedItem(
+      'newTodo',
+    ) as HTMLInputElement;
+    const todo = newTodoInput.value;
+
+    if (!todo) return;
+
+    try {
+      const newTodo = await createTodo(todo);
+      dispatch(addTodoBy(newTodo));
+      newTodoInput.value = '';
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
   return (
     <form className='flex' onSubmit={onSubmit}>
       <input

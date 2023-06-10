@@ -5,9 +5,10 @@ import { AUTH_TYPE_MAP } from '@/constants/auth';
 import { PATHNAMES } from '@/constants/pathnames';
 
 const { SIGN_IN, SIGN_UP } = PATHNAMES;
+import type { AuthPathnames } from '@/types/auth';
 
 interface AuthPageProps {
-  type: typeof SIGN_IN | typeof SIGN_UP;
+  type: AuthPathnames;
 }
 
 const EmailInputProps = {

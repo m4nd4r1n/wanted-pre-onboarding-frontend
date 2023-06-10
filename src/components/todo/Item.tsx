@@ -83,7 +83,7 @@ const Item: React.FC<ItemProps> = ({ id, isCompleted, todo }) => {
           className='flex w-3 h-3 border border-gray-300 rounded-full aspect-square peer-checked:bg-amber-400'
         ></label>
         {!isEditing && (
-          <span className='w-full peer-checked:line-through peer-checked:text-gray-400'>
+          <span className='break-all peer-checked:line-through peer-checked:text-gray-400'>
             {todo}
           </span>
         )}

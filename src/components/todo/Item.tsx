@@ -8,6 +8,9 @@ import type { Todo } from '@/types/todo';
 const Item: React.FC<Todo> = ({ id, isCompleted, todo, userId }) => {
   const [isEditing, setIsEditing] = useState(false);
 
+  const onEditClick: React.MouseEventHandler<HTMLButtonElement> = () => {
+    setIsEditing((prev) => !prev);
+  };
   return (
     <>
       <label className='flex items-center w-full gap-4 cursor-pointer'>
@@ -18,7 +21,7 @@ const Item: React.FC<Todo> = ({ id, isCompleted, todo, userId }) => {
         ></label>
         <span className='w-full peer-checked:line-through peer-checked:text-gray-400'>{todo}</span>
       </label>
-      <Button>
+      <Button onClick={onEditClick}>
         <HiOutlinePencilAlt />
       </Button>
       <Button textColor='red'>

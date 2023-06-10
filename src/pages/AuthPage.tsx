@@ -1,4 +1,5 @@
 import Input from '@/components/auth/Input';
+import { useNavigate } from 'react-router-dom';
 import Layout from '@/components/common/Layout';
 import { PATHNAMES } from '@/constants/pathnames';
 
@@ -27,6 +28,12 @@ const PasswordInputProps = {
 };
 
 const AuthPage: React.FC<AuthPageProps> = ({ type }) => {
+  const navigate = useNavigate();
+
+  const onSignUpPageClick = () => {
+    navigate(SIGN_UP);
+  };
+
   return (
     <Layout title={AUTH_TYPE_MAP[type]} hasBackButton={type === SIGN_UP}>
       <form className='flex flex-col gap-8'>
@@ -41,7 +48,9 @@ const AuthPage: React.FC<AuthPageProps> = ({ type }) => {
       </form>
       {type === SIGN_IN && (
         <div className='flex justify-center mt-8'>
-          <button className='font-bold text-amber-500'>회원가입 하기</button>
+          <button className='font-bold text-amber-500' onClick={onSignUpPageClick}>
+            회원가입 하기
+          </button>
         </div>
       )}
     </Layout>

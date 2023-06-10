@@ -24,7 +24,7 @@ const Layout: React.FC<LayoutProps> = ({ children, title, hasBackButton }) => {
         )}
         <span className='font-bold'>{title}</span>
       </header>
-      <main className='px-6 mt-12'>{children}</main>
+      <main className='px-6 mt-12 h-main'>{children}</main>
     </div>
   );
 };

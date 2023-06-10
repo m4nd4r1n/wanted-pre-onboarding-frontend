@@ -1,6 +1,7 @@
 import Input from '@/components/auth/Input';
 import { useNavigate } from 'react-router-dom';
 import Layout from '@/components/common/Layout';
+import { AUTH_TYPE_MAP } from '@/constants/auth';
 import { PATHNAMES } from '@/constants/pathnames';
 
 const { SIGN_IN, SIGN_UP } = PATHNAMES;
@@ -8,11 +9,6 @@ const { SIGN_IN, SIGN_UP } = PATHNAMES;
 interface AuthPageProps {
   type: typeof SIGN_IN | typeof SIGN_UP;
 }
-
-const AUTH_TYPE_MAP = {
-  [SIGN_IN]: '로그인',
-  [SIGN_UP]: '회원가입',
-} as const;
 
 const EmailInputProps = {
   label: '이메일',

@@ -2,6 +2,7 @@ import { useEffect, useReducer } from 'react';
 
 import { TodoDispatchContext, TodoStateContext } from '.';
 
+import { STORAGE_KEY } from '@/constants/storage-key';
 import { getTodos } from '@/libs/api/todo';
 import todoReducer, { setTodosBy } from '@/reducer/todo';
 import type { Todo } from '@/types/todo';
@@ -10,8 +11,10 @@ interface TodoProviderProps {
   children: React.ReactNode;
 }
 
+const { TODOS } = STORAGE_KEY;
+
 const TodoProvider: React.FC<TodoProviderProps> = ({ children }) => {
-  const initialState: Todo[] = JSON.parse(localStorage.getItem('todos') ?? '[]');
+  const initialState: Todo[] = JSON.parse(localStorage.getItem(TODOS) ?? '[]');
   const [state, dispatch] = useReducer(todoReducer, initialState);
 
   useEffect(() => {

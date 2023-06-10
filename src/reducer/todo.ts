@@ -1,5 +1,7 @@
+import { STORAGE_KEY } from '@/constants/storage-key';
 import type { Todo } from '@/types/todo';
 
+const { TODOS } = STORAGE_KEY;
 const ACTION = {
   ADD: 'todo/ADD',
   DELETE: 'todo/DELETE',
@@ -22,23 +24,23 @@ const todoReducer = (state: Todo[], action: TodoAction) => {
   switch (action.type) {
     case ACTION.ADD: {
       const updatedTodos = [...state, action.payload];
-      localStorage.setItem('todos', JSON.stringify(updatedTodos));
+      localStorage.setItem(TODOS, JSON.stringify(updatedTodos));
       return updatedTodos;
     }
     case ACTION.DELETE: {
       const updatedTodos = state.filter((todo) => todo.id !== action.payload.id);
-      localStorage.setItem('todos', JSON.stringify(updatedTodos));
+      localStorage.setItem(TODOS, JSON.stringify(updatedTodos));
       return updatedTodos;
     }
     case ACTION.UPDATE: {
       const updatedTodos = state.map((todo) =>
         todo.id === action.payload.id ? action.payload : todo,
       );
-      localStorage.setItem('todos', JSON.stringify(updatedTodos));
+      localStorage.setItem(TODOS, JSON.stringify(updatedTodos));
       return updatedTodos;
     }
     case ACTION.SET: {
-      localStorage.setItem('todos', JSON.stringify(action.payload));
+      localStorage.setItem(TODOS, JSON.stringify(action.payload));
       return action.payload;
     }
     default: {

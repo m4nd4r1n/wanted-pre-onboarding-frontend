@@ -1,9 +1,13 @@
+import { useState } from 'react';
+
 import Button from '../common/Button';
 import { HiOutlinePencilAlt, HiOutlineTrash } from 'react-icons/hi';
 
 import type { Todo } from '@/types/todo';
 
 const Item: React.FC<Todo> = ({ id, isCompleted, todo, userId }) => {
+  const [isEditing, setIsEditing] = useState(false);
+
   return (
     <>
       <label className='flex items-center w-full gap-4 cursor-pointer'>

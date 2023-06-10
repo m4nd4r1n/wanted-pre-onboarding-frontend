@@ -1,10 +1,12 @@
 import Button from '../common/Button';
 import Input from './Input';
+import { useNavigate } from 'react-router-dom';
 
 import { AUTH_TYPE_MAP } from '@/constants/auth';
 import { PATHNAMES } from '@/constants/pathnames';
 import { TEST_IDS } from '@/constants/test-ids';
 import useValidate from '@/hooks/useValidate';
+import { signIn, signUp } from '@/libs/api/auth';
 import type { AuthPathnames } from '@/types/auth';
 
 interface FormProps {
@@ -28,13 +30,59 @@ const PasswordInputProps = {
 };
 
 const Form: React.FC<FormProps> = ({ type }) => {
+  const navigate = useNavigate();
   const [isEmailValid, onEmailChange] = useValidate(/@/);
   const [isPasswordValid, onPasswordChange] = useValidate(/.{8,}/);
 
   const isSignUp = type === SIGN_UP;
 
+  const onSubmit: React.FormEventHandler<HTMLFormElement> = async (event) => {
+    event.preventDefault();
+    const { target } = event;
+    const emailElement = (target as HTMLFormElement).elements.namedItem(
+      'email',
+    ) as HTMLInputElement;
+    const passwordElement = (target as HTMLFormElement).elements.namedItem(
+      'password',
+    ) as HTMLInputElement;
+    const email = emailElement.value;
+    const password = passwordElement.value;
+
+    if (!email || !password) {
+      onEmailChange({ target: { value: email } } as React.ChangeEvent<HTMLInputElement>);
+      onPasswordChange({ target: { value: password } } as React.ChangeEvent<HTMLInputElement>);
+    }
+
+    if (!email) {
+      emailElement.focus();
+      return;
+    }
+    if (!password) {
+      passwordElement.focus();
+      return;
+    }
+
+    if (isSignUp) {
+      try {
+        await signUp({ email, password });
+        navigate(SIGN_IN);
+      } catch (e) {
+        console.error(e);
+      }
+      return;
+    }
+
+    try {
+      const { access_token } = await signIn({ email, password });
+      localStorage.setItem('token', access_token);
+      navigate(TODO);
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
   return (
-    <form className='flex flex-col gap-8'>
+    <form className='flex flex-col gap-8' onSubmit={onSubmit}>
       <div className='relative'>
         <Input testid={EMAIL_INPUT} onChange={onEmailChange} {...EmailInputProps} />
         {!isEmailValid && (

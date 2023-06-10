@@ -14,7 +14,6 @@ const Input: React.FC<InputProps> = ({ testid, label, ...rest }) => {
       <input
         data-testid={testid}
         className='w-full pb-2 text-base border-b border-gray-400 outline-none'
-        title='test'
         {...rest}
       />
     </div>

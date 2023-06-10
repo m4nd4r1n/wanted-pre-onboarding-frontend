@@ -29,7 +29,11 @@ const Item: React.FC<Todo> = ({ id, isCompleted, todo, userId }) => {
           htmlFor={`${id}`}
           className='flex w-3 h-3 border border-gray-300 rounded-full aspect-square peer-checked:bg-amber-400'
         ></label>
-        <span className='w-full peer-checked:line-through peer-checked:text-gray-400'>{todo}</span>
+        {!isEditing && (
+          <span className='w-full peer-checked:line-through peer-checked:text-gray-400'>
+            {todo}
+          </span>
+        )}
       </label>
       <Button onClick={onEditClick}>
         <HiOutlinePencilAlt />

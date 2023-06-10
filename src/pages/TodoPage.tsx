@@ -1,13 +1,16 @@
 import Layout from '@/components/common/Layout';
+import CreateTodo from '@/components/todo/CreateTodo';
 import List from '@/components/todo/List';
-import NewTodo from '@/components/todo/NewTodo';
+import TodoProvider from '@/context/todo/Provider';
 
 const TodoPage = () => {
   return (
     <Layout title='Todo'>
       <div className='flex flex-col h-full gap-8'>
-        <NewTodo />
-        <List />
+        <TodoProvider>
+          <CreateTodo />
+          <List />
+        </TodoProvider>
       </div>
     </Layout>
   );

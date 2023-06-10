@@ -1,14 +1,14 @@
 import Item from './Item';
 
-const MOCK_TODOS = Array(20)
-  .fill(0)
-  .map((_, index) => ({ id: index, todo: 'test', isCompleted: index % 2 === 0, userId: 1 }));
+import useTodoContext from '@/hooks/useTodoContext';
 
 const List = () => {
+  const [todos] = useTodoContext();
+
   return (
     <ul className='h-full space-y-4 overflow-y-scroll'>
-      {MOCK_TODOS.map((todo) => (
-        <li key={todo.id} className='flex gap-2'>
+      {todos.map((todo) => (
+        <li key={todo.id} className='flex w-full gap-2'>
           <Item {...todo} />
         </li>
       ))}

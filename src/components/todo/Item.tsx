@@ -3,13 +3,23 @@ import { useState } from 'react';
 import Button from '../common/Button';
 import { HiOutlinePencilAlt, HiOutlineTrash } from 'react-icons/hi';
 
+import useTodoContext from '@/hooks/useTodoContext';
 import type { Todo } from '@/types/todo';
 
 const Item: React.FC<Todo> = ({ id, isCompleted, todo, userId }) => {
+  const [, dispatch] = useTodoContext();
   const [isEditing, setIsEditing] = useState(false);
 
   const onEditClick: React.MouseEventHandler<HTMLButtonElement> = () => {
     setIsEditing((prev) => !prev);
+  };
+  const onDeleteClick: React.MouseEventHandler<HTMLButtonElement> = async () => {
+    try {
+      await deleteTodo(id);
+      dispatch(deleteTodoBy(id));
+    } catch (e) {
+      console.error(e);
+    }
   };
   return (
     <>
@@ -24,7 +34,7 @@ const Item: React.FC<Todo> = ({ id, isCompleted, todo, userId }) => {
       <Button onClick={onEditClick}>
         <HiOutlinePencilAlt />
       </Button>
-      <Button textColor='red'>
+      <Button textColor='red' onClick={onDeleteClick}>
         <HiOutlineTrash />
       </Button>
     </>

@@ -8,7 +8,7 @@
 
 ```bash
 npm install
-npm run start
+npm run preview
 ```
 
 이후 http://localhost:3000 접속

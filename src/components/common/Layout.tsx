@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { PATHNAMES } from '@/constants/pathnames';
 import { STORAGE_KEY } from '@/constants/storage-key';
+import { successToast } from '@/libs/toast';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -25,6 +26,7 @@ const Layout: React.FC<LayoutProps> = ({ children, title, hasBackButton }) => {
   const onLogoutClick: React.MouseEventHandler<HTMLButtonElement> = () => {
     localStorage.removeItem(TOKEN);
     localStorage.removeItem(TODOS);
+    successToast('로그아웃 되었습니다.');
     navigate(SIGN_IN);
   };
 

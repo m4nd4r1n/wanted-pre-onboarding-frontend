@@ -4,6 +4,7 @@ import { HiPlus } from 'react-icons/hi';
 import { TEST_IDS } from '@/constants/test-ids';
 import useTodoContext from '@/hooks/useTodoContext';
 import { createTodo } from '@/libs/api/todo';
+import { apiErrorToast, successToast } from '@/libs/toast';
 import { addTodoBy } from '@/reducer/todo';
 
 const { NEW_TODO_INPUT, NEW_TODO_ADD_BUTTON } = TEST_IDS;
@@ -26,8 +27,9 @@ const CreateTodo = () => {
       const newTodo = await createTodo(todo);
       dispatch(addTodoBy(newTodo));
       newTodoInput.value = '';
+      successToast(`추가되었습니다.`);
     } catch (e) {
-      console.error(e);
+      apiErrorToast(e);
     }
   };
 

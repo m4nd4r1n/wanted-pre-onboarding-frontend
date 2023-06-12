@@ -2,11 +2,13 @@ import { useState } from 'react';
 
 import Button from '../common/Button';
 import classNames from 'classnames';
+import { toast } from 'react-hot-toast';
 import { HiCheck, HiOutlinePencilAlt, HiOutlineTrash, HiX } from 'react-icons/hi';
 
 import { TEST_IDS } from '@/constants/test-ids';
 import useTodoContext from '@/hooks/useTodoContext';
 import { deleteTodo, updateTodo } from '@/libs/api/todo';
+import { apiErrorToast, successToast } from '@/libs/toast';
 import { deleteTodoBy, updateTodoBy } from '@/reducer/todo';
 import type { Todo } from '@/types/todo';
 
@@ -25,8 +27,9 @@ const Item: React.FC<ItemProps> = ({ id, isCompleted, todo }) => {
     try {
       await deleteTodo(id);
       dispatch(deleteTodoBy(id));
+      successToast(`삭제되었습니다.`);
     } catch (e) {
-      console.error(e);
+      apiErrorToast(e);
     }
   };
   const onEditCancelClick: React.MouseEventHandler<HTMLButtonElement> = () => {
@@ -40,7 +43,10 @@ const Item: React.FC<ItemProps> = ({ id, isCompleted, todo }) => {
       'updatedTodo',
     ) as HTMLInputElement;
     const editedTodo = updatedTodoInput.value;
-    if (!editedTodo) return;
+    if (!editedTodo) {
+      toast.error(`수정할 내용을 입력해주세요.`);
+      return;
+    }
     if (todo === editedTodo) {
       setIsEditing(false);
       return;
@@ -49,8 +55,9 @@ const Item: React.FC<ItemProps> = ({ id, isCompleted, todo }) => {
       const updatedTodo = await updateTodo({ id, isCompleted, todo: editedTodo });
       dispatch(updateTodoBy(updatedTodo));
       setIsEditing(false);
+      successToast(`수정되었습니다.`);
     } catch (e) {
-      console.error(e);
+      apiErrorToast(e);
     }
   };
   const onCheckboxChange: React.ChangeEventHandler<HTMLInputElement> = async (event) => {
@@ -61,7 +68,7 @@ const Item: React.FC<ItemProps> = ({ id, isCompleted, todo }) => {
       const updatedTodo = await updateTodo({ id, isCompleted, todo });
       dispatch(updateTodoBy(updatedTodo));
     } catch (e) {
-      console.error(e);
+      apiErrorToast(e);
     }
   };
 

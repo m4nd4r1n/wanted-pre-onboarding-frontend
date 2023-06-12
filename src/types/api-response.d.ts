@@ -8,4 +8,10 @@ declare module 'api-response' {
   export type CreateTodoResponse = Todo;
   export type GetTodosResponse = Todo[];
   export type UpdateTodoResponse = Todo;
+
+  export type ErrorResponse = {
+    statusCode: number;
+    message: string | string[];
+    error?: string;
+  };
 }

@@ -7,6 +7,7 @@ import { PATHNAMES } from '@/constants/pathnames';
 import { TEST_IDS } from '@/constants/test-ids';
 import useValidate from '@/hooks/useValidate';
 import { signIn, signUp } from '@/libs/api/auth';
+import { apiErrorToast, successToast } from '@/libs/toast';
 import type { AuthPathnames } from '@/types/auth';
 
 interface FormProps {
@@ -65,9 +66,10 @@ const Form: React.FC<FormProps> = ({ type }) => {
     if (isSignUp) {
       try {
         await signUp({ email, password });
+        successToast('회원가입이 완료되었습니다.');
         navigate(SIGN_IN);
       } catch (e) {
-        console.error(e);
+        apiErrorToast(e);
       }
       return;
     }
@@ -75,9 +77,10 @@ const Form: React.FC<FormProps> = ({ type }) => {
     try {
       const { access_token } = await signIn({ email, password });
       localStorage.setItem('token', access_token);
+      successToast('로그인되었습니다.');
       navigate(TODO);
     } catch (e) {
-      console.error(e);
+      apiErrorToast(e);
     }
   };
 
